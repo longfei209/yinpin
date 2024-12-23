@@ -306,4 +306,78 @@
       </ul>
     </div>
   </div>
+<script>
+    const taylor = [ { "url": "https://github.com/BlackIQ/Taylor-Swift/raw/main/2006 Taylor Swift/Taylor-Swift-A-Perfectly-Good-Heart-320.mp3"} ]
+    const jsonData = taylor.concat(jay, chengmingqu)
+    Object.freeze(jsonData)
+    const { createApp } = Vue
 
+    createApp({
+      data() {
+        return {
+          jsonData,
+          playlist: [],
+          music: null,
+          index: 0,
+          isPlaying: false,
+          btn: {
+            play: '▶',
+            pause: 'II',
+            prev: 'I<',
+            next: '>I',
+          }
+        }
+      },
+      mounted() {
+        window.dd = this
+        audio.volume = 0.2
+        this.playlist = jsonData
+        this.music = jsonData[0]
+      },
+      computed() {
+
+      },
+      methods: {
+        next() {
+          this.index++
+          if (!this.jsonData[this.index]) {
+            this.index = 0
+          }
+          let item = this.jsonData[this.index]
+          this.changeSong(item, this.index)
+        },
+        prev() {
+          this.index--
+          if (!this.jsonData[this.index]) {
+            this.index = 0
+          }
+          let item = this.jsonData[this.index]
+          this.changeSong(item, this.index)
+        },
+        playPause() {
+          audio.paused ? audio.play() : audio.pause()
+          this.isPlaying = !audio.paused
+        },
+        changeSong(item, index) {
+          this.music = item
+          this.index = index
+          audio.play()
+          this.isPlaying = !audio.paused
+        },
+        checkActive(item) {
+          if (!this.music) return false
+          return this.music.name === item.name
+        },
+        how2use() {
+          alert(`
+            本网页应用资源从互联网整理，仅供交流使用。
+            如有侵权，请联系删除，谢谢！
+          `)
+        }
+      }
+    }).mount('#app')
+  </script>
+
+</body>
+
+</html>
